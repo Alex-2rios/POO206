@@ -43,3 +43,15 @@ c=float(input("introduce un numero decimal:"))
 print(a,b,c)
 
 #4. bolean, comparacion y logicos
+
+print(10 > 9)
+print(10 < 9)
+print(10 == 9)
+print(10 >= 9)
+print(10 <= 9)
+print(10 != 9)
+
+x=1
+print(x<5 and x<10)
+print(x<5 or x<10)
+print(not(x<5 and x<10))
