@@ -7,3 +7,7 @@
 de varias lineas 
 en python"""
 
+
+#2. strings 
+print("Hola soy una cadena")
+print('yo soy otra')
