@@ -30,3 +30,17 @@ h2 {
     padding-bottom: 5px;
     margin-bottom: 15px;
 }
+
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+a {
+    color: #004080;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
