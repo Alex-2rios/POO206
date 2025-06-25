@@ -44,15 +44,15 @@
     <table>
         <thead>
             <tr>
-                <td>Título</td>
-                <td>Artista</td>
+                <td>ID</td>
+                <td>Album</td>
             </tr>
         </thead>
         <tbody>
             {% for alb in albums %}
                 <tr>
                     <td>{{ alb.0 }}</td>
-                    <td><a href="/detalles/{{ alb.0 }}"> {{ alb.1 }} </a></td>
+                    <td><a href="/detalle/{{ alb.0 }}"> {{ alb.1 }} </a></td>
                 </tr>
             {% endfor %}
         </tbody>

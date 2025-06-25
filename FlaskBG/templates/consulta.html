@@ -8,7 +8,29 @@
 
 <body>
     <h2>Consulta</h2>
-    <a href="/"> Abrir vista Formulario </a>
+     <table>
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Album</td>
+                <td>Artista</td>
+                <td>Año</td>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>{{ Albums.0 }}</td>
+                    <td>{{ Albums.1 }}</td>
+                    <td>{{ Albums.2 }}</td>
+                    <td>{{ Albums.3 }}</td>
+                    <br>
+                    <td><a href="#">Actualizar</a></td>
+                    <td><a href="#">Eliminar</a></td>
+                </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="/"> Regresar al Formulario </a>
 </body>
 
 </html>
