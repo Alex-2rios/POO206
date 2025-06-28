@@ -39,6 +39,53 @@ def detalle(id):
     finally:
         cursor.close()
 
+@app.route('/editar/<int:id>')
+def editar(id):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM Albums WHERE id=%s', (id,))
+        album = cursor.fetchone()
+        return render_template('formUpdate.html', album=album)
+    except Exception as e:
+        print('Error al obtener álbum:', e)
+        return redirect(url_for('home'))
+    finally:
+        cursor.close()
+
+@app.route('/actualizarAlbum/<int:id>', methods=['POST'])
+def actualizarAlbum(id):
+    datos = request.form
+    titulo = datos.get('txtTitulo', '').strip()
+    artista = datos.get('txtArtista', '').strip()
+    año = datos.get('txtAnio', '').strip()
+    errores = {}
+
+    if not titulo:
+        errores['txtTitulo'] = 'El título es obligatorio'
+    if not artista:
+        errores['txtArtista'] = 'El artista es obligatorio'
+    if not año:
+        errores['txtAnio'] = 'El año es obligatorio'
+    elif not año.isdigit() or int(año) < 1800 or int(año) > 2030:
+        errores['txtAnio'] = 'Ingrese un año válido'
+
+    if errores:
+        return render_template('formUpdate.html', album=(id, titulo, artista, año), errores=errores)
+
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('UPDATE Albums SET Titulo=%s, Artista=%s, Año=%s WHERE id=%s', (titulo, artista, año, id))
+        mysql.connection.commit()
+        flash('Álbum actualizado correctamente')
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('Error al actualizar: ' + str(e))
+    finally:
+        cursor.close()
+
+    return redirect(url_for('home'))
+
+
 # Ruta de consulta
 @app.route('/consulta')
 def consulta():
