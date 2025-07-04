@@ -17,7 +17,7 @@ mysql = MySQL(app)
 def home():
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM Albums')
+        cursor.execute('SELECT * FROM Albums WHERE State = 1')
         consultaTodos = cursor.fetchall()
         return render_template('formulario.html', errores={}, albums=consultaTodos)
     except Exception as e:
@@ -83,6 +83,33 @@ def actualizarAlbum(id):
     finally:
         cursor.close()
 
+    return redirect(url_for('home'))
+
+@app.route('/eliminar/<int:id>')
+def eliminar(id):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM Albums WHERE id = %s', (id,))
+        album = cursor.fetchone()
+        return render_template('confirmDel.html', album=album)
+    except Exception as e:
+        flash('Error al cargar álbum: ' + str(e))
+        return redirect(url_for('home'))
+    finally:
+        cursor.close()
+
+@app.route('/eliminarConfirmado/<int:id>', methods=['POST'])
+def eliminarConfirmado(id):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('UPDATE Albums SET State = 0 WHERE id = %s', (id,))
+        mysql.connection.commit()
+        flash('Álbum Eliminado en BD')
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('Error al eliminar: ' + str(e))
+    finally:
+        cursor.close()
     return redirect(url_for('home'))
 
 
