@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+<body>
+    <h2>Agenda</h2>
+
+    <br>
+    <br>
+    <br>
+
+    {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+            {% for msj in mensajes %}
+                <h4 style="color:blue">{{ msj }}</h4>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('guardar') }}" method="POST">
+        <input type="text" name="txtTitulo" placeholder="Nombre" value="{{ request.form.txtTitulo }}">
+        {% if errores and errores.txtTitulo %}
+            <p style="color:red">{{errores.txtTitulo}}</p>
+        {% endif %}
+
+        <input type="text" name="txtArtista" placeholder="Correo" value="{{ request.form.txtArtista }}">
+        {% if errores and errores.txtArtista %}
+            <p style="color:red">{{errores.txtArtista}}</p>
+        {% endif %}
+
+        <input type="number" name="txtAnio" placeholder="Teléfono" value="{{ request.form.txtAnio }}">
+        {% if errores and errores.txtAnio %}
+            <p style="color:red">{{errores.txtAnio}}</p>
+        {% endif %}
+
+        <input type="number" name="txtEdad" placeholder="Edad" value="{{ request.form.txtEdad }}">
+        {% if errores and errores.txtEdad %}
+            <p style="color:red">{{errores.txtEdad}}</p>
+        {% endif %}
+
+        <button type="submit">Guardar Contacto</button>
+    </form>
+
+    <br>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Contacto</td>
+                <td>Telefono</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alb in albums %}
+                <tr>
+                    <td>{{ alb.0 }}</td>
+                    <td><a href="/detalle/{{ alb.0 }}"> {{ alb.1 }} </a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
