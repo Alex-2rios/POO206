@@ -51,7 +51,6 @@ def guardar():
             flash('Álbum guardado con éxito')
             return redirect(url_for('albums.home'))
         except Exception as e:
-            mysql.connection.rollback()  # Deshacer cambios en caso de error
             flash('Error al guardar: ' + str(e))
             return redirect(url_for('albums.home'))
 
@@ -98,7 +97,6 @@ def actualizarAlbum(id):
         updateAlbum(id, titulo, artista, año)
         flash('Álbum actualizado correctamente')
     except Exception as e:
-        mysql.connection.rollback()
         flash('Error al actualizar: ' + str(e))
 
     return redirect(url_for('albums.home'))
@@ -108,15 +106,14 @@ def actualizarAlbum(id):
 @albumsBP.route('/eliminar/<int:id>', methods=['GET'])
 def eliminar(id):
     try:
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM Albums WHERE id = %s', (id,))
-        album = cursor.fetchone()
+        album = getById(id)  # Obtener el álbum por ID
+        if not album:
+            flash('Álbum no encontrado')
+            return redirect(url_for('albums.home'))
         return render_template('confirmDel.html', album=album)
     except Exception as e:
         flash('Error al cargar álbum: ' + str(e))
         return redirect(url_for('albums.home'))
-    finally:
-        cursor.close()
 
 
 # Ruta para confirmar la eliminación del álbum (soft delete)
@@ -126,7 +123,5 @@ def eliminarConfirmado(id):
         softDeleteAlbum(id)  # Función para realizar el soft delete (marcar el álbum como eliminado)
         flash('Álbum eliminado correctamente de la base de datos')
     except Exception as e:
-        mysql.connection.rollback()
         flash('Error al eliminar: ' + str(e))
     return redirect(url_for('albums.home'))
-
