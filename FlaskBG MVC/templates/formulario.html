@@ -13,7 +13,7 @@
             {% endif %}
         {% endwith %}
 
-        <!-- Formulario para agregar álbum -->
+       
         <form action="{{ url_for('albums.guardar') }}" method="POST">
             <div class="form-group mb-3">
                 <input type="text" name="txtTitulo" class="form-control" placeholder="Título" value="{{ request.form.txtTitulo }}">
@@ -36,10 +36,10 @@
                 {% endif %}
             </div>
 
-            <!-- Botón con más espacio -->
+          
             <button type="submit" class="btn btn-primary mt-4">Guardar Album</button>
         </form>
-    </div> <!-- columna5-->
+    </div> 
     
     <div class="col-md-7"> 
         <h2 class="display-4 text-primary mt-5 mb-3">Listado de Albums</h2>
@@ -59,6 +59,6 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div> <!-- columna7-->
+    </div> 
 </div>
 {% endblock %}
