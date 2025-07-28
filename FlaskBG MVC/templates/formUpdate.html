@@ -1,33 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualiza Album</title>
-</head>
-<body>
-    <h2>Actualiza Album</h2>
+{% extends "plantilla.html" %}
 
-    <form action="/actualizarAlbum/{{ album.0 }}" method="POST">
-        <input type="text" name="txtTitulo" placeholder="Título" value="{{ album.1 }}">
-        {% if errores and errores.txtTitulo %}
-            <p style="color:red">{{ errores.txtTitulo }}</p>
-        {% endif %}
+{% block body %}
+<div class="container mt-5">
+    <h2 class="display-4 text-primary mb-4">Actualizar Álbum</h2>
 
-        <input type="text" name="txtArtista" placeholder="Artista" value="{{ album.2 }}">
-        {% if errores and errores.txtArtista %}
-            <p style="color:red">{{ errores.txtArtista }}</p>
-        {% endif %}
+    <form action="{{ url_for('albums.actualizarAlbum', id=album[0]) }}" method="POST">
+        <div class="form-group mb-3">
+            <input type="text" name="txtTitulo" class="form-control" placeholder="Título" value="{{ album[1] }}">
+            {% if errores and errores.txtTitulo %}
+                <p style="color:red">{{ errores.txtTitulo }}</p>
+            {% endif %}
+        </div>
 
-        <input type="number" name="txtAnio" placeholder="Año de publicación" value="{{ album.3 }}">
-        {% if errores and errores.txtAnio %}
-            <p style="color:red">{{ errores.txtAnio }}</p>
-        {% endif %}
+        <div class="form-group mb-3">
+            <input type="text" name="txtArtista" class="form-control" placeholder="Artista" value="{{ album[2] }}">
+            {% if errores and errores.txtArtista %}
+                <p style="color:red">{{ errores.txtArtista }}</p>
+            {% endif %}
+        </div>
 
-        <button type="submit">Actualiza Album</button>
+        <div class="form-group mb-3">
+            <input type="number" name="txtAnio" class="form-control" placeholder="Año de publicación" value="{{ album[3] }}">
+            {% if errores and errores.txtAnio %}
+                <p style="color:red">{{ errores.txtAnio }}</p>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Actualizar Álbum</button>
     </form>
 
     <br>
-    <a href="/">Regresar al Formulario</a>
-</body>
-</html>
+    <a href="{{ url_for('albums.home') }}" class="btn btn-secondary">Regresar al Formulario</a>
+</div>
+{% endblock %}

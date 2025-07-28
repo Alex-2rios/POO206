@@ -1,36 +1,34 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta</title>
-<head>
+{% extends "plantilla.html" %}
 
-<body>
-    <h2>Consulta</h2>
-     <table>
+{% block body %}
+<div class="container mt-5">
+    <h2 class="display-4 text-primary mb-4">Consulta de Álbum</h2>
+    
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <td>Id</td>
-                <td>Album</td>
-                <td>Artista</td>
-                <td>Año</td>
+                <th>ID</th>
+                <th>Album</th>
+                <th>Artista</th>
+                <th>Año</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-                <tr>
-                    <td>{{ Albums.0 }}</td>
-                    <td>{{ Albums.1 }}</td>
-                    <td>{{ Albums.2 }}</td>
-                    <td>{{ Albums.3 }}</td>
-                    <br>
-                    <td><a href="/editar/{{ Albums.0 }}">Actualizar</a></td>
-                    <td><a href="/eliminar/{{ Albums.0 }}">Eliminar</a></td>
-                </tr>
+            <tr>
+                <td>{{ Albums[0] }}</td>
+                <td>{{ Albums[1] }}</td>
+                <td>{{ Albums[2] }}</td>
+                <td>{{ Albums[3] }}</td>
+                <td>
+                    <a href="{{ url_for('albums.editar', id=Albums[0]) }}" class="btn btn-warning btn-sm">Actualizar</a>
+                    <a href="{{ url_for('albums.eliminar', id=Albums[0]) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
         </tbody>
     </table>
-    <br>
-    <a href="/"> Regresar al Formulario </a>
-</body>
 
-</html>
+    <br>
+    <a href="{{ url_for('albums.home') }}" class="btn btn-secondary">Regresar al Formulario</a>
+</div>
+{% endblock %}

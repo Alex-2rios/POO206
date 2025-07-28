@@ -1,62 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario</title>
-</head>
-<body>
-    <h2>Vista del formulario</h2>
-    <a href="/consulta">Abrir vista Consulta</a>
-    <br>
-    <br>
-    <br>
+{% extends "plantilla.html" %}
 
-    {% with mensajes = get_flashed_messages() %}
-        {% if mensajes %}
-            {% for msj in mensajes %}
-                <h4 style="color:blue">{{ msj }}</h4>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+{% block body %}
+<div class="row">
+    <div class="col-md-5"> 
+        <h2 class="display-4 text-primary mt-5 mb-3">Albums</h2>
 
-    <!-- Cambio aquí: Usamos 'albums.guardar' en lugar de 'guardar' -->
-    <form action="{{ url_for('albums.guardar') }}" method="POST">
-        <input type="text" name="txtTitulo" placeholder="Título" value="{{ request.form.txtTitulo }}">
-        {% if errores and errores.txtTitulo %}
-            <p style="color:red">{{errores.txtTitulo}}</p>
-        {% endif %}
+        {% with mensajes = get_flashed_messages() %}
+            {% if mensajes %}
+                {% for msj in mensajes %}
+                    <h4 style="color:blue">{{ msj }}</h4>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-        <input type="text" name="txtArtista" placeholder="Artista" value="{{ request.form.txtArtista }}">
-        {% if errores and errores.txtArtista %}
-            <p style="color:red">{{errores.txtArtista}}</p>
-        {% endif %}
+        <!-- Formulario para agregar álbum -->
+        <form action="{{ url_for('albums.guardar') }}" method="POST">
+            <div class="form-group mb-3">
+                <input type="text" name="txtTitulo" class="form-control" placeholder="Título" value="{{ request.form.txtTitulo }}">
+                {% if errores and errores.txtTitulo %}
+                    <p style="color:red">{{errores.txtTitulo}}</p>
+                {% endif %}
+            </div>
 
-        <input type="number" name="txtAnio" placeholder="Año de publicación" value="{{ request.form.txtAnio }}">
-        {% if errores and errores.txtAnio %}
-            <p style="color:red">{{errores.txtAnio}}</p>
-        {% endif %}
+            <div class="form-group mb-3">
+                <input type="text" name="txtArtista" class="form-control" placeholder="Artista" value="{{ request.form.txtArtista }}">
+                {% if errores and errores.txtArtista %}
+                    <p style="color:red">{{errores.txtArtista}}</p>
+                {% endif %}
+            </div>
 
-        <button type="submit">Guardar Album</button>
-    </form>
+            <div class="form-group mb-3">
+                <input type="number" name="txtAnio" class="form-control" placeholder="Año de publicación" value="{{ request.form.txtAnio }}">
+                {% if errores and errores.txtAnio %}
+                    <p style="color:red">{{errores.txtAnio}}</p>
+                {% endif %}
+            </div>
 
-    <br>
-
-    <table>
-        <thead>
-            <tr>
-                <td>ID</td>
-                <td>Album</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for alb in albums %}
+            <!-- Botón con más espacio -->
+            <button type="submit" class="btn btn-primary mt-4">Guardar Album</button>
+        </form>
+    </div> <!-- columna5-->
+    
+    <div class="col-md-7"> 
+        <h2 class="display-4 text-primary mt-5 mb-3">Listado de Albums</h2>
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ alb.0 }}</td>
-                    <td><a href="/detalle/{{ alb.0 }}"> {{ alb.1 }} </a></td>
+                    <td>ID</td>
+                    <td>Album</td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+            </thead>
+            <tbody>
+                {% for alb in albums %}
+                    <tr>
+                        <td>{{ alb.0 }}</td>
+                        <td><a href="/detalle/{{ alb.0 }}"> {{ alb.1 }} </a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div> <!-- columna7-->
+</div>
+{% endblock %}
